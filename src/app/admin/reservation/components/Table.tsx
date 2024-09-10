@@ -84,7 +84,7 @@ const Table = () => {
         );
       });
     });
-  }, [search]);
+  }, [search, reservations]);
 
   useEffect(() => {
     setInitialRecords(() => {
@@ -95,7 +95,7 @@ const Table = () => {
         return reservation.reservationDate.split("T")[0] === currentDate;
       });
     });
-  }, [currentDate]);
+  }, [currentDate, reservations]);
 
   const refreshReservations = () => {
     setInitialRecords(reservations);

@@ -22,7 +22,18 @@ const EditCustomer = ({ row }: any) => {
     setEmail(row.email);
     setPhoneNumber(row.phoneNumber);
     setNote(row.note);
-  }, []);
+  }, [
+    row.firstName,
+    row.lastName,
+    row.email,
+    row.phoneNumber,
+    row.note,
+    setFirstName,
+    setLastName,
+    setEmail,
+    setPhoneNumber,
+    setNote,
+  ]);
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="w-full flex gap-2">

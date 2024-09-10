@@ -24,7 +24,7 @@ const SelectCustomer = () => {
       }
     };
     getCustomers();
-  }, []);
+  }, [setCustomers]);
 
   return (
     <>

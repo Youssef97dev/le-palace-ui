@@ -76,7 +76,7 @@ const Table = () => {
         );
       });
     });
-  }, [search]);
+  }, [search, tables]);
   return (
     <div>
       <div className="panel mt-6 mx-5">

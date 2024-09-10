@@ -73,7 +73,7 @@ const Table = () => {
         );
       });
     });
-  }, [search]);
+  }, [search, costumers]);
 
   const showEditCustomer = (row: any) => {
     setSelectedRow(row);
