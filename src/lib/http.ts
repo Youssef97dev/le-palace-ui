@@ -1,8 +1,8 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-//const apiUrl = process.env.NEXT_PUBLIC_API_FRONT_URI;
-const apiUrl = "http://localhost:3000";
+const apiUrl = process.env.NEXT_PUBLIC_API_FRONT_URI;
+//const apiUrl = "http://localhost:3000";
 const jwtKey = "accessToken";
 
 interface DecodedToken {
