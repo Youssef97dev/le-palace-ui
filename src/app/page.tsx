@@ -36,7 +36,7 @@ export default function Home() {
     } else {
       router.push("/admin");
     }
-  }, [router]);
+  }, []);
 
   useEffect(() => {
     setIsClient(true);
