@@ -1,14 +1,8 @@
 "use client";
-import Image from "next/image";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { me } from "@/lib/auth";
-
-import Menu from "@/components/Menu";
-import Dashboard from "@/components/Dashboard";
-import Navbar from "@/components/Navbar";
 
 import { userAppStore } from "@/store/store";
 
@@ -26,7 +20,7 @@ export default function Home() {
       setUserInfo(data);
     };
     getUser();
-  }, [setUserInfo]);
+  }, []);
 
   useEffect(() => {
     console.log("userInfo: ", userInfo);
