@@ -59,7 +59,7 @@ const AddReservation = () => {
   const showAvailableTables = async (time: string, date: string) => {
     try {
       const result: any = await getAvailableTables(
-        time.split(" ")[0],
+        time,
         new Date(date).toISOString().split("T")[0]
       );
       setAvailableTables(result.data);

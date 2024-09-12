@@ -57,12 +57,12 @@ const Menu = () => {
 
   return (
     <div className="mt-4 text-sm ">
-      {menuItems.map((i) => (
-        <div className="flex flex-col gap-2" key={i.title}>
+      {menuItems.map((i, index) => (
+        <div className="flex flex-col gap-2" key={index}>
           <span className="hidden lg:block font-bold my-4">{i.title}</span>
-          {i.items.map((item) => {
+          {i.items.map((item, index) => {
             return (
-              <>
+              <div key={index}>
                 {item.label !== "Logout" ? (
                   <Link
                     href={item.href}
@@ -82,7 +82,7 @@ const Menu = () => {
                     <span className="hidden lg:block">{item.label}</span>
                   </button>
                 )}
-              </>
+              </div>
             );
           })}
         </div>

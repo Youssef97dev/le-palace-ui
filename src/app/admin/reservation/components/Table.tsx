@@ -89,13 +89,10 @@ const Table = () => {
   useEffect(() => {
     setInitialRecords(() => {
       return reservations.filter((reservation: any) => {
-        console.log(reservation.reservationDate.split("T")[0]);
-        console.log(currentDate);
-        console.log(reservation.reservationDate.split("T")[0] === currentDate);
         return reservation.reservationDate.split("T")[0] === currentDate;
       });
     });
-  }, [currentDate, reservations]);
+  }, [currentDate]);
 
   const refreshReservations = () => {
     setInitialRecords(reservations);

@@ -86,3 +86,23 @@ export const addNewReservation = async (
     }
   }
 };
+
+export const getCount = async (type: string) => {
+  try {
+    const result = await axios.get(createUrl(`/api/${type}`));
+    return result.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export const getAllReservationsToday = async () => {
+  try {
+    const result = await axios.get(createUrl(`/api/reservations/today`));
+    return result.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
