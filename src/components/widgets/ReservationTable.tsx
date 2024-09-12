@@ -39,7 +39,10 @@ const ReservationTable = () => {
             </thead>
             <tbody>
               {reservationsToday.map((reservation: any) => (
-                <tr className="group text-white-dark hover:text-black ">
+                <tr
+                  key={reservation.id}
+                  className="group text-white-dark hover:text-black "
+                >
                   <td className="min-w-[150px] text-black">
                     <span className="whitespace-nowrap">
                       {reservation.reservationTime}
