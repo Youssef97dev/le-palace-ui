@@ -20,12 +20,12 @@ export const addNewTables = async (tableNumber: number, capacity: number) => {
   return result;
 };
 
-export const getAvailableTables = async (time: string, date: string) => {
+export const getAvailableTables = async (time_r: string, date_r: string) => {
   try {
     const result = await axios.get(createUrl(`/api/tables/available-tables`), {
       params: {
-        time,
-        date,
+        time_r,
+        date_r,
       },
     });
     return result;

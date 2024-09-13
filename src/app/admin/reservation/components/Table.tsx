@@ -171,7 +171,7 @@ const Table = () => {
                 sortable: true,
                 render: ({ table }: any) => (
                   <div className="font-medium">
-                    <div>{`${table.tableNumber}`}</div>
+                    <div>{`${table?.tableNumber}`}</div>
                   </div>
                 ),
               },
