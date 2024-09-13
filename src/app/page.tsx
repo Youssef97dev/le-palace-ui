@@ -16,21 +16,21 @@ export default function Home() {
 
   useEffect(() => {
     const getUser = async () => {
-      const data = await me();
-      setUserInfo(data);
+      try {
+        const data = await me();
+        setUserInfo(data);
+        if (!data) {
+          router.push("/signin");
+        } else {
+          router.push("/admin");
+        }
+      } catch (error) {
+        console.log(error);
+        router.push("/signin");
+      }
     };
     getUser();
-  }, []);
-
-  useEffect(() => {
-    console.log("userInfo: ", userInfo);
-    // Check if user is authenticated
-    if (!userInfo) {
-      router.push("/signin");
-    } else {
-      router.push("/admin");
-    }
-  }, []);
+  }, [router, setUserInfo]);
 
   useEffect(() => {
     setIsClient(true);

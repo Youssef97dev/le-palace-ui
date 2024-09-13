@@ -25,7 +25,9 @@ const ReservationTable = () => {
         <h5 className="text-lg font-semibold">Today Reservations</h5>
       </div>
       {isLoading ? (
-        <BounceLoader />
+        <div className="flex justify-center items-center h-full">
+          <BounceLoader size={100} />
+        </div>
       ) : (
         <div className="table-responsive">
           <table>

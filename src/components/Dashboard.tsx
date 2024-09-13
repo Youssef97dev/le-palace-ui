@@ -1,5 +1,6 @@
 import Card from "./widgets/Card";
 import ReservationTable from "./widgets/ReservationTable";
+import ReservationChart from "./widgets/ReservationChart";
 
 const Dashboard = () => {
   return (
@@ -19,8 +20,8 @@ const Dashboard = () => {
           <ReservationTable />
         </div>
         {/* ATTENDANCE CHART */}
-        <div className="w-full lg:w-1/2 h-[450px] bg-white-dark">
-          attendance chart
+        <div className="w-full lg:w-1/2 h-[450px] rounded-lg">
+          <ReservationChart />
         </div>
       </div>
     </div>

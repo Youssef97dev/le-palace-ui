@@ -22,7 +22,9 @@ const Card = ({ type, title }: any) => {
   return (
     <div className="rounded-2xl odd:bg-lamaPurple even:bg-lamaYellow p-4 flex-1 min-w-[130px]">
       {isLoading ? (
-        <BounceLoader />
+        <div className="flex justify-center items-center h-full">
+          <BounceLoader size={40} />
+        </div>
       ) : (
         <>
           <h1 className="text-2xl font-semibold my-4">{count}</h1>

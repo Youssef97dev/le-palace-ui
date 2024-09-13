@@ -76,7 +76,6 @@ export const addNewReservation = async (
           note: reservationNote,
           status: "Confirmed",
         });
-        console.log(result);
         return result;
       } else {
         return null;
@@ -100,6 +99,18 @@ export const getCount = async (type: string) => {
 export const getAllReservationsToday = async () => {
   try {
     const result = await axios.get(createUrl(`/api/reservations/today`));
+    return result.data;
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export const getReservationsByMonth = async () => {
+  try {
+    const result = await axios.get(
+      createUrl(`/api/reservations/by-month?year=2024`)
+    );
     return result.data;
   } catch (error) {
     console.log(error);
