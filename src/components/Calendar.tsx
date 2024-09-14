@@ -8,8 +8,11 @@ const CalendarUI = () => {
   const [value, setValue] = useState(new Date());
 
   const selectDate = (e: any) => {
-    console.log(e.toISOString().split("T")[0]);
-    setCurrentDate(e.toISOString().split("T")[0]);
+    setCurrentDate(
+      new Date(e.getFullYear(), e.getMonth(), e.getDate() + 1)
+        .toISOString()
+        .split("T")[0]
+    );
   };
 
   return (

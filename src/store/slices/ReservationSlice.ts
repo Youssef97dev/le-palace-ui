@@ -50,4 +50,9 @@ export const createReservationSlice = (set: any, get: any) => ({
   setCustomerId: (customerId: string) => {
     set({ customerId });
   },
+
+  sol: "",
+  setSol: (sol: string) => {
+    set({ sol });
+  },
 });

@@ -9,7 +9,7 @@ const Dashboard = () => {
       <div className="flex gap-4 justify-between flex-wrap">
         <Card type="reservations" title="Reservations" />
         <Card type="customers" title="Clients" />
-        <Card type="tables" title="Tables" />
+        {/* <Card type="tables" title="Tables" /> */}
         <Card type="users" title="Users" />
       </div>
 

@@ -26,10 +26,10 @@ export const changeReservationStatus = async (status: string, id: string) => {
 export const addNewReservation = async (
   userId: string,
   customerId: string,
-  tableId: string,
   reservationDate: any,
   reservationTime: string,
   cover: number,
+  sol: string,
   reservationNote: string,
   firstName: string,
   lastName: string,
@@ -42,7 +42,7 @@ export const addNewReservation = async (
       const result = await axios.post(createUrl(`/api/reservations`), {
         userId,
         customerId,
-        tableId,
+        floor: sol,
         reservationDate,
         reservationTime,
         cover,
@@ -68,8 +68,8 @@ export const addNewReservation = async (
       if (resultCustomer.status === 201) {
         const result = await axios.post(createUrl(`/api/reservations`), {
           userId,
-          tableId,
           customerId: resultCustomer.data.id,
+          floor: sol,
           reservationDate,
           reservationTime,
           cover,

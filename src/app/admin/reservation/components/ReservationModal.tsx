@@ -26,7 +26,6 @@ const ReservationModal = () => {
     reservationDate,
     reservationTime,
     reservationCover,
-    tableId,
     reservationNote,
     customerId,
     firstName,
@@ -36,6 +35,7 @@ const ReservationModal = () => {
     note,
     userInfo,
     setRefreshData,
+    sol,
   }: any = userAppStore();
   const [active2, setActive2] = useState<string>("1");
   const togglePara2 = (value: string) => {
@@ -48,10 +48,10 @@ const ReservationModal = () => {
     const reservation: any = await addNewReservation(
       userInfo.id,
       customerId,
-      tableId,
-      new Date(reservationDate).toISOString(),
+      reservationDate,
       reservationTime,
       Number(reservationCover),
+      sol,
       reservationNote,
       firstName,
       lastName,

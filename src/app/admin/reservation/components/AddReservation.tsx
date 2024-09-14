@@ -2,7 +2,6 @@
 import { useState, useRef } from "react";
 import Flatpickr from "react-flatpickr";
 import { userAppStore } from "@/store/store";
-import { getAvailableTables } from "@/lib/table";
 
 // Icons
 import { IoCalendarOutline } from "react-icons/io5";
@@ -15,10 +14,8 @@ const AddReservation = () => {
     setReservationDate,
     reservationCover,
     setReservationCover,
-    availableTables,
-    setAvailableTables,
     setReservationTime,
-    setTableId,
+    setSol,
     setReservationNote,
   }: any = userAppStore();
   const flatpickrRef: any = useRef(null);
@@ -56,7 +53,7 @@ const AddReservation = () => {
     "01:00 AM",
   ]);
 
-  const showAvailableTables = async (time: string, date: string) => {
+  /*const showAvailableTables = async (time: string, date: string) => {
     try {
       const result: any = await getAvailableTables(
         time,
@@ -67,7 +64,7 @@ const AddReservation = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  };*/
 
   return (
     <div className="flex flex-col space-y-2">
@@ -82,7 +79,17 @@ const AddReservation = () => {
             value={reservationDate}
             className="text-black focus:outline-none"
             options={{ dateFormat: "Y-m-d", position: "auto left" }}
-            onChange={([date]) => setReservationDate(date)}
+            onChange={([date]) =>
+              setReservationDate(
+                new Date(
+                  date.getFullYear(),
+                  date.getMonth(),
+                  date.getDate() + 1
+                )
+                  .toISOString()
+                  .split("T")[0]
+              )
+            }
           />
         </div>
         <IoCalendarOutline size={25} />
@@ -108,7 +115,7 @@ const AddReservation = () => {
         <select
           id="ctnSelect1"
           className="form-select text-white-dark"
-          onChange={(e) => showAvailableTables(e.target.value, reservationDate)}
+          onChange={(e) => setReservationTime(e.target.value)}
           required
         >
           <option>Select Reservation Time</option>
@@ -120,20 +127,17 @@ const AddReservation = () => {
         </select>
       </div>
       <div className="p-2">
-        <label htmlFor="ctnSelect1">Tables</label>
+        <label htmlFor="ctnSelect1">Sol</label>
         <select
           id="ctnSelect1"
           className="form-select text-white-dark"
-          onChange={(e) => setTableId(e.target.value)}
+          onChange={(e) => setSol(e.target.value)}
           required
         >
-          <option>Select Available Table</option>
-          {availableTables?.length > 0 &&
-            availableTables.map((table: any, i: any) => (
-              <option value={table.id} key={i}>
-                {table.tableNumber}
-              </option>
-            ))}
+          <option value="Terasse">Select Sol</option>
+          <option value="Terasse">Terasse</option>
+          <option value="Rdc">RDC</option>
+          <option value="SousSol">Sous Sol</option>
         </select>
       </div>
       <div className="p-2">

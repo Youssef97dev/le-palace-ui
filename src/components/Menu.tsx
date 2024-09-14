@@ -24,11 +24,6 @@ const menuItems = [
         href: "/admin/reservation",
       },
       {
-        icon: <TbPicnicTable size={18} />,
-        label: "Tables",
-        href: "/admin/table",
-      },
-      {
         icon: <IoPersonSharp size={18} />,
         label: "Customers",
         href: "/admin/customer",

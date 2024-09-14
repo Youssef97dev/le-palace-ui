@@ -140,6 +140,15 @@ const Table = () => {
             records={recordsData}
             columns={[
               {
+                accessor: "Date",
+                sortable: true,
+                render: ({ reservationDate }: any) => (
+                  <div className="font-medium">
+                    <div>{`${reservationDate}`}</div>
+                  </div>
+                ),
+              },
+              {
                 accessor: "TIME",
                 sortable: true,
                 render: ({ reservationTime }: any) => (
@@ -158,20 +167,20 @@ const Table = () => {
                 ),
               },
               {
+                accessor: "Floor",
+                sortable: true,
+                render: ({ floor }: any) => (
+                  <div className="font-medium">
+                    <div>{`${floor}`}</div>
+                  </div>
+                ),
+              },
+              {
                 accessor: "NAME",
                 sortable: true,
                 render: ({ customer }: any) => (
                   <div className="font-medium">
                     <div>{`${customer.firstName} ${customer.lastName}`}</div>
-                  </div>
-                ),
-              },
-              {
-                accessor: "TABLE",
-                sortable: true,
-                render: ({ table }: any) => (
-                  <div className="font-medium">
-                    <div>{`${table?.tableNumber}`}</div>
                   </div>
                 ),
               },
@@ -204,7 +213,9 @@ const Table = () => {
                           ? "bg-yellow-600"
                           : status === "Booked"
                           ? "bg-green-600"
-                          : "bg-red-600"
+                          : status === "Cancelled"
+                          ? "bg-red-600"
+                          : "bg-primary"
                       } p-2 rounded-md  text-white`}
                     >{`${status}`}</span>
                   </div>
@@ -226,17 +237,19 @@ const Table = () => {
                       }
                     >
                       <ul className="!min-w-[170px] z-50">
-                        {status !== "Booked" && (
-                          <li>
-                            <button
-                              onClick={() => changeStatus("Booked", id)}
-                              type="button"
-                            >
-                              Booked
-                            </button>
-                          </li>
-                        )}
-                        {status !== "Cancelled" && (
+                        {status !== "Booked" &&
+                          status !== "Cancelled" &&
+                          status !== "Completed" && (
+                            <li>
+                              <button
+                                onClick={() => changeStatus("Booked", id)}
+                                type="button"
+                              >
+                                Booked
+                              </button>
+                            </li>
+                          )}
+                        {status !== "Cancelled" && status !== "Completed" && (
                           <li>
                             <button
                               onClick={() => changeStatus("Cancelled", id)}
