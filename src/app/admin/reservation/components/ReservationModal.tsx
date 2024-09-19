@@ -19,6 +19,8 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { IoIosPersonAdd } from "react-icons/io";
 import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 
+import { BeatLoader } from "react-spinners";
+
 const ReservationModal = () => {
   const {
     showModal,
@@ -37,6 +39,7 @@ const ReservationModal = () => {
     setRefreshData,
     sol,
   }: any = userAppStore();
+  const [isLoading, setIsLoading] = useState(false);
   const [active2, setActive2] = useState<string>("1");
   const togglePara2 = (value: string) => {
     setActive2((oldValue) => {
@@ -45,24 +48,31 @@ const ReservationModal = () => {
   };
 
   const submitReservation = async () => {
-    const reservation: any = await addNewReservation(
-      userInfo.id,
-      customerId,
-      reservationDate,
-      reservationTime,
-      Number(reservationCover),
-      sol,
-      reservationNote,
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      note
-    );
+    try {
+      setIsLoading(true);
+      const reservation: any = await addNewReservation(
+        userInfo.id,
+        customerId,
+        reservationDate,
+        reservationTime,
+        Number(reservationCover),
+        sol,
+        reservationNote,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        note
+      );
 
-    if (reservation.status === 201) {
-      setRefreshData();
-      setShowModal(false);
+      if (reservation.status === 201) {
+        setRefreshData();
+        setShowModal(false);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -169,8 +179,13 @@ const ReservationModal = () => {
                     onClick={submitReservation}
                     type="button"
                     className="btn btn-primary ml-4"
+                    disabled={isLoading}
                   >
-                    Save
+                    {!isLoading ? (
+                      `Save`
+                    ) : (
+                      <BeatLoader color="#fff" size={10} />
+                    )}
                   </button>
                 </div>
               </div>

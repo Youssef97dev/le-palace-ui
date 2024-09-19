@@ -8,43 +8,48 @@ import {
 } from "@headlessui/react";
 import { Fragment, useState } from "react";
 import { userAppStore } from "@/store/store";
-import AddCustomer from "./AddCustomer";
-import EditCustomer from "./EditCustomer";
-import { addNewCustomer, updateCustomer } from "@/lib/customer";
+import AddUser from "./AddUser";
+import EditUser from "./EditUser";
+import { addNewUser, updateUser } from "@/lib/user";
 
 import { BeatLoader } from "react-spinners";
 
-const CustomerModal = ({ row }: any) => {
+const UserModal = ({ row }: any) => {
   const {
-    setRefreshCustomerData,
-    showCustomerModal,
-    setShowCustomerModal,
-    firstName,
-    lastName,
-    email,
-    phoneNumber,
-    note,
+    setRefreshUserData,
+    showUserModal,
+    setShowUserModal,
+    user_firstName,
+    user_lastName,
+    user_email,
+    password,
+    username,
   }: any = userAppStore();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const submitCustomer = async () => {
+  const submitUser = async () => {
     try {
       setIsLoading(true);
-      const customer: any = row
-        ? await updateCustomer(
+      const user: any = row
+        ? await updateUser(
             row.id,
-            firstName,
-            lastName,
-            email,
-            phoneNumber,
-            note
+            user_firstName,
+            user_lastName,
+            user_email,
+            password,
+            username
           )
-        : await addNewCustomer(firstName, lastName, email, phoneNumber, note);
-
-      if (customer.status === 201 || customer.status === 200) {
-        setRefreshCustomerData();
-        setShowCustomerModal(false);
+        : await await addNewUser(
+            user_firstName,
+            user_lastName,
+            user_email,
+            password,
+            username
+          );
+      if (user.status === 201 || user.status === 200) {
+        setRefreshUserData();
+        setShowUserModal(false);
       }
     } catch (error) {
       console.log(error);
@@ -52,9 +57,10 @@ const CustomerModal = ({ row }: any) => {
       setIsLoading(false);
     }
   };
+
   return (
-    <Transition appear show={showCustomerModal} as={Fragment}>
-      <Dialog as="div" open={showCustomerModal} onClose={setShowCustomerModal}>
+    <Transition appear show={showUserModal} as={Fragment}>
+      <Dialog as="div" open={showUserModal} onClose={setShowUserModal}>
         <TransitionChild
           as={Fragment}
           enter="ease-out duration-300"
@@ -74,10 +80,10 @@ const CustomerModal = ({ row }: any) => {
             <DialogPanel className="panel border-0 p-0 rounded-lg overflow-hidden w-full max-w-4xl my-8 text-black animate__animated animate__fadeInUp">
               <div className="flex bg-[#fbfbfb] items-center justify-between px-5 py-3">
                 <h5 className="font-bold text-lg">
-                  {row ? "Edit Client" : "Add Client"}
+                  {row ? "Edit User" : "Add User"}
                 </h5>
                 <button
-                  onClick={setShowCustomerModal}
+                  onClick={setShowUserModal}
                   type="button"
                   className="text-white-dark hover:text-dark"
                 >
@@ -86,18 +92,18 @@ const CustomerModal = ({ row }: any) => {
               </div>
               <div className="p-5">
                 <div className="space-y-2 font-semibold">
-                  {row ? <EditCustomer row={row} /> : <AddCustomer />}
+                  {row ? <EditUser row={row} /> : <AddUser />}
                 </div>
                 <div className="flex justify-end items-center mt-8">
                   <button
-                    onClick={setShowCustomerModal}
+                    onClick={setShowUserModal}
                     type="button"
                     className="btn btn-outline-danger"
                   >
                     Discard
                   </button>
                   <button
-                    onClick={submitCustomer}
+                    onClick={submitUser}
                     type="button"
                     className="btn btn-primary ml-4"
                     disabled={isLoading}
@@ -118,4 +124,4 @@ const CustomerModal = ({ row }: any) => {
   );
 };
 
-export default CustomerModal;
+export default UserModal;
