@@ -7,6 +7,8 @@ import { userAppStore } from "@/store/store";
 
 import Dropdown from "@/components/Dropdown";
 
+import { SyncLoader } from "react-spinners";
+
 //Icons
 import { HiRefresh } from "react-icons/hi";
 import { IoMdAdd } from "react-icons/io";
@@ -99,9 +101,16 @@ const Table = () => {
   };
 
   const changeStatus = async (status: string, id: string) => {
-    const result: any = await changeReservationStatus(status, id);
-    if (result.statusText === "OK") {
-      setRefreshData();
+    try {
+      setIsLoading(true);
+      const result: any = await changeReservationStatus(status, id);
+      if (result.status === 200) {
+        setRefreshData();
+      }
+    } catch (error) {
+      console.error("Error :", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -132,153 +141,163 @@ const Table = () => {
             />
           </div>
         </div>
-        <div className="datatables">
-          <DataTable
-            noRecordsText="No results match your search query"
-            highlightOnHover
-            className="table-hover whitespace-nowrap"
-            records={recordsData}
-            columns={[
-              {
-                accessor: "Date",
-                sortable: true,
-                render: ({ reservationDate }: any) => (
-                  <div className="font-medium">
-                    <div>{`${reservationDate}`}</div>
-                  </div>
-                ),
-              },
-              {
-                accessor: "TIME",
-                sortable: true,
-                render: ({ reservationTime }: any) => (
-                  <div className="font-medium">
-                    <div>{`${reservationTime}`}</div>
-                  </div>
-                ),
-              },
-              {
-                accessor: "COVER",
-                sortable: true,
-                render: ({ cover }: any) => (
-                  <div className="font-medium">
-                    <div>{`${cover}`}</div>
-                  </div>
-                ),
-              },
-              {
-                accessor: "Floor",
-                sortable: true,
-                render: ({ floor }: any) => (
-                  <div className="font-medium">
-                    <div>{`${floor}`}</div>
-                  </div>
-                ),
-              },
-              {
-                accessor: "NAME",
-                sortable: true,
-                render: ({ customer }: any) => (
-                  <div className="font-medium">
-                    <div>{`${customer.firstName} ${customer.lastName}`}</div>
-                  </div>
-                ),
-              },
-              {
-                accessor: "NOTES",
-                sortable: true,
-                render: ({ note }) => (
-                  <div className="font-medium">
-                    <div>{`${note}`}</div>
-                  </div>
-                ),
-              },
-              {
-                accessor: "BOOKED BY",
-                sortable: true,
-                render: ({ user }: any) => (
-                  <div className="font-medium">
-                    <div>{`${user.firstName} ${user.lastName}`}</div>
-                  </div>
-                ),
-              },
-              {
-                accessor: "STATUS",
-                sortable: true,
-                render: ({ status }) => (
-                  <div className="font-medium">
-                    <span
-                      className={`${
-                        status === "Confirmed"
-                          ? "bg-yellow-600"
-                          : status === "Booked"
-                          ? "bg-green-600"
-                          : status === "Cancelled"
-                          ? "bg-red-600"
-                          : "bg-primary"
-                      } p-2 rounded-md  text-white`}
-                    >{`${status}`}</span>
-                  </div>
-                ),
-              },
-              {
-                accessor: "ACTIONS",
-                sortable: false,
-                render: ({ id, status }) => (
-                  <div className="dropdown">
-                    <Dropdown
-                      placement="top"
-                      btnClassName="btn p-0 rounded-none border-0 shadow-none dropdown-toggle text-black hover:text-primary"
-                      button={
-                        <IoEllipsisVerticalCircleOutline
-                          size={22}
-                          color="#3b3f5c"
-                        />
-                      }
-                    >
-                      <ul className="!min-w-[170px] z-50">
-                        {status !== "Booked" &&
-                          status !== "Cancelled" &&
-                          status !== "Completed" && (
-                            <li>
-                              <button
-                                onClick={() => changeStatus("Booked", id)}
-                                type="button"
-                              >
-                                Booked
-                              </button>
-                            </li>
-                          )}
-                        {status !== "Cancelled" && status !== "Completed" && (
-                          <li>
-                            <button
-                              onClick={() => changeStatus("Cancelled", id)}
-                              type="button"
-                            >
-                              Cancelled
-                            </button>
-                          </li>
-                        )}
-                      </ul>
-                    </Dropdown>
-                  </div>
-                ),
-              },
-            ]}
-            totalRecords={initialRecords.length}
-            recordsPerPage={pageSize}
-            page={page}
-            onPageChange={(p) => setPage(p)}
-            recordsPerPageOptions={PAGE_SIZES}
-            onRecordsPerPageChange={setPageSize}
-            sortStatus={sortStatus}
-            onSortStatusChange={setSortStatus}
-            minHeight={200}
-            paginationText={({ from, to, totalRecords }) =>
-              `Showing  ${from} to ${to} of ${totalRecords} reservations`
-            }
-          />
-        </div>
+        {isLoading ? (
+          <div className="flex justify-center items-center">
+            <SyncLoader color="#4361ee" size={20} />
+          </div>
+        ) : (
+          <div className="datatables">
+            <DataTable
+              noRecordsText="No results match your search query"
+              highlightOnHover
+              className="table-hover whitespace-nowrap overflow-auto"
+              records={recordsData}
+              columns={[
+                {
+                  accessor: "Date",
+                  sortable: true,
+                  render: ({ reservationDate }: any) => (
+                    <div className="font-medium">
+                      <div>{`${reservationDate.split("T")[0]}`}</div>
+                    </div>
+                  ),
+                },
+                {
+                  accessor: "TIME",
+                  sortable: true,
+                  render: ({ reservationTime }: any) => (
+                    <div className="font-medium">
+                      <div>{`${reservationTime}`}</div>
+                    </div>
+                  ),
+                },
+                {
+                  accessor: "COVER",
+                  sortable: true,
+                  render: ({ cover }: any) => (
+                    <div className="font-medium">
+                      <div>{`${cover}`}</div>
+                    </div>
+                  ),
+                },
+                {
+                  accessor: "Floor",
+                  sortable: true,
+                  render: ({ floor }: any) => (
+                    <div className="font-medium">
+                      <div>{`${floor}`}</div>
+                    </div>
+                  ),
+                },
+                {
+                  accessor: "NAME",
+                  sortable: true,
+                  render: ({ customer }: any) => (
+                    <div className="font-medium">
+                      <div>{`${customer.firstName} ${customer.lastName}`}</div>
+                    </div>
+                  ),
+                },
+                {
+                  accessor: "NOTES",
+                  sortable: true,
+                  render: ({ note }) => (
+                    <div className="font-medium">
+                      <div>{`${note}`}</div>
+                    </div>
+                  ),
+                },
+                {
+                  accessor: "BOOKED BY",
+                  sortable: true,
+                  render: ({ user }: any) => (
+                    <div className="font-medium">
+                      <div>{`${user.firstName} ${user.lastName}`}</div>
+                    </div>
+                  ),
+                },
+                {
+                  accessor: "STATUS",
+                  sortable: true,
+                  render: ({ status }) => (
+                    <div className="font-medium">
+                      <span
+                        className={`${
+                          status === "Confirmed"
+                            ? "bg-yellow-600"
+                            : status === "Booked"
+                            ? "bg-green-600"
+                            : status === "Cancelled"
+                            ? "bg-red-600"
+                            : "bg-primary"
+                        } p-2 rounded-md  text-white`}
+                      >{`${status}`}</span>
+                    </div>
+                  ),
+                },
+                {
+                  accessor: "ACTIONS",
+                  sortable: false,
+                  render: ({ id, status }) =>
+                    status !== "Cancelled" && (
+                      <div className="dropdown">
+                        <Dropdown
+                          placement={"left" || "top"}
+                          btnClassName="btn p-0 rounded-none border-0 shadow-none dropdown-toggle text-black hover:text-primary"
+                          button={
+                            <IoEllipsisVerticalCircleOutline
+                              size={22}
+                              color="#3b3f5c"
+                            />
+                          }
+                        >
+                          <ul className="!min-w-[170px] z-50">
+                            {status !== "Booked" &&
+                              status !== "Cancelled" &&
+                              status !== "Completed" && (
+                                <li>
+                                  <button
+                                    onClick={() => changeStatus("Booked", id)}
+                                    type="button"
+                                  >
+                                    Booked
+                                  </button>
+                                </li>
+                              )}
+                            {status !== "Cancelled" &&
+                              status !== "Completed" && (
+                                <li>
+                                  <button
+                                    onClick={() =>
+                                      changeStatus("Cancelled", id)
+                                    }
+                                    type="button"
+                                  >
+                                    Cancelled
+                                  </button>
+                                </li>
+                              )}
+                          </ul>
+                        </Dropdown>
+                      </div>
+                    ),
+                },
+              ]}
+              totalRecords={initialRecords.length}
+              recordsPerPage={pageSize}
+              page={page}
+              onPageChange={(p) => setPage(p)}
+              recordsPerPageOptions={PAGE_SIZES}
+              onRecordsPerPageChange={setPageSize}
+              sortStatus={sortStatus}
+              onSortStatusChange={setSortStatus}
+              minHeight={200}
+              paginationText={({ from, to, totalRecords }) =>
+                `Showing  ${from} to ${to} of ${totalRecords} reservations`
+              }
+            />
+          </div>
+        )}
       </div>
       {showModal && <ReservationModal />}
     </div>
